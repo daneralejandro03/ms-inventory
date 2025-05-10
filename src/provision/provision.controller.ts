@@ -11,7 +11,7 @@ import { Provision } from './entities/provision.entity';
 import { Product } from '../product/entities/product.entity';
 import { Supplier } from '../supplier/entities/supplier.entity';
 
-@Controller('provisions')
+@Controller('provision')
 export class ProvisionController {
   constructor(private readonly provService: ProvisionService) { }
 
