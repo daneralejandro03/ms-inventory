@@ -8,6 +8,9 @@ import { CityModule } from './city/city.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './user-client/user-client.module';
 import { StoreModule } from './store/store.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -40,6 +43,12 @@ import { StoreModule } from './store/store.module';
     UsersModule,
 
     StoreModule,
+
+    InventoryModule,
+
+    ProductModule,
+
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
