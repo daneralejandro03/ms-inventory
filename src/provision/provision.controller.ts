@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ProvisionService } from './provision.service';
-import { CreateProvisionDto } from './dto/create-provision.dto';
-import { UpdateProvisionDto } from './dto/update-provision.dto';
+import { Provision } from './entities/provision.entity';
+import { Product } from '../product/entities/product.entity';
+import { Supplier } from '../supplier/entities/supplier.entity';
 
-@Controller('provision')
+@Controller('provisions')
 export class ProvisionController {
-  constructor(private readonly provisionService: ProvisionService) {}
+  constructor(private readonly provService: ProvisionService) { }
 
-  @Post()
-  create(@Body() createProvisionDto: CreateProvisionDto) {
-    return this.provisionService.create(createProvisionDto);
+  @Post('product/:productId/supplier/:supplierId')
+  create(
+    @Param('productId', ParseIntPipe) productId: number,
+    @Param('supplierId', ParseIntPipe) supplierId: number,
+  ): Promise<Provision> {
+    return this.provService.create(productId, supplierId);
   }
 
   @Get()
-  findAll() {
-    return this.provisionService.findAll();
+  findAll(): Promise<Provision[]> {
+    return this.provService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.provisionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProvisionDto: UpdateProvisionDto) {
-    return this.provisionService.update(+id, updateProvisionDto);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Provision> {
+    return this.provService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.provisionService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.provService.remove(id);
+  }
+
+  @Get('product/:productId')
+  findSuppliersByProduct(
+    @Param('productId', ParseIntPipe) productId: number
+  ): Promise<Supplier[]> {
+    return this.provService.findSuppliersByProduct(productId);
+  }
+
+  @Get('supplier/:supplierId')
+  findProductsBySupplier(
+    @Param('supplierId', ParseIntPipe) supplierId: number
+  ): Promise<Product[]> {
+    return this.provService.findProductsBySupplier(supplierId);
   }
 }
