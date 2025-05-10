@@ -9,7 +9,7 @@ import {
 import { City } from '../../city/entities/city.entity';
 import { Inventory } from '../../inventory/entities/inventory.entity';
 
-@Entity('stores')
+@Entity({ name: 'stores' })
 export class Store {
     @PrimaryGeneratedColumn({ name: '_idStore', type: 'int' })
     id: number;

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Inventory } from '../../inventory/entities/inventory.entity';
 import { Category } from '../../category/entities/category.entity';
+import { Provision } from '../../provision/entities/provision.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -64,5 +65,10 @@ export class Product {
     })
     @JoinColumn({ name: 'categoryId' })
     category: Category;
+
+    @OneToMany(() => Provision, provision => provision.product, {
+        cascade: true,
+    })
+    provision: Provision[];
 
 }
