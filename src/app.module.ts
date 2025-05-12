@@ -13,6 +13,8 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { ProvisionModule } from './provision/provision.module';
 import { SupplierModule } from './supplier/supplier.module';
+import { CsvModule } from './csv/csv.module';
+import { RoleClientModule } from './role-client/role-client.module';
 
 @Module({
   imports: [
@@ -55,6 +57,10 @@ import { SupplierModule } from './supplier/supplier.module';
     ProvisionModule,
 
     SupplierModule,
+
+    CsvModule,
+
+    RoleClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

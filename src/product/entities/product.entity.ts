@@ -27,6 +27,15 @@ export class Product {
     @Column({ type: 'int' })
     stock: number;
 
+    @Column({ type: 'int' })
+    levelReorder: number;
+
+    @Column({ type: 'text' })
+    sku: string;
+
+    @Column({ type: 'text' })
+    barcode: string;
+
     @Column({ type: 'timestamp' })
     dateEntry: Date;
 

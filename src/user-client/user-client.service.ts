@@ -3,12 +3,14 @@ import {
   UnauthorizedException,
   NotFoundException,
   InternalServerErrorException,
+  BadRequestException,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { UserTokenDto } from './dto/user-token.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserClientService {
@@ -25,6 +27,23 @@ export class UserClientService {
     this.baseUrl = base.endsWith('/') ? base : base + '/';
   }
 
+  async createUserWithRole(roleId: string, userDto: CreateUserDto, token: string): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.post(
+          `${this.baseUrl}user/${encodeURIComponent(roleId)}`,
+          userDto,
+          { headers: { Authorization: token } },
+        ),
+      );
+    } catch (err: unknown) {
+      const error = err as AxiosError;
+      if (error.response?.status === 400) {
+        throw new BadRequestException('Usuario ya existe o datos inválidos');
+      }
+      throw new InternalServerErrorException('Error al crear usuario');
+    }
+  }
 
   async verifyUserExists(userId: string, token: string): Promise<void> {
     try {

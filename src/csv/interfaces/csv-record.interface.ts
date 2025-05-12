@@ -1,0 +1,32 @@
+export interface CsvRecord {
+    id_almacen: string;
+    nombre_almacen: string;
+    direccion: string;
+    ciudad: string;
+    departamento: string;
+    pais: string;
+    codigo_postal: string;
+    latitud: string;
+    longitud: string;
+    gerente: string;
+    telefono: string;
+    email: string;
+    capacidad_m2: string;
+    estado: string;
+    id_producto?: string;
+    nombre_producto?: string;
+    categoria?: string;
+    descripcion?: string;
+    sku?: string;
+    codigo_barras?: string;
+    precio_unitario?: string;
+    cantidad_stock?: string;
+    nivel_reorden?: string;
+    ultima_reposicion?: string;
+    fecha_vencimiento?: string;
+    id_proveedor?: string;
+    peso_kg?: string;
+    dimensiones_cm?: string;
+    es_fragil?: string;
+    requiere_refrigeracion?: string;
+}

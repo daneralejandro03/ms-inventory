@@ -30,6 +30,20 @@ export class CreateProductDto {
     @Min(0)
     stock: number;
 
+    @Type(() => Number)
+    @IsInt()
+    @Min(0)
+    levelReorder: number;
+
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(100)
+    sku: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(100)
+    barcode: string;
 
     @Transform(({ value }) => {
         if (typeof value !== 'string') {
