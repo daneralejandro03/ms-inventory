@@ -22,21 +22,31 @@ export class CsvController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('processCsvInventory')
+  @Post('processCsvStore')
   @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
-  async processCsvInventory(@UploadedFile() file: Express.Multer.File, @Req() req: Request,): Promise<{ message: string; }> {
+  async processCsvInventory(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request,
+  ): Promise<{ message: string }> {
+    if (!file?.buffer) throw new BadRequestException('Archivo inválido');
+
+    const authHeader = req.headers.authorization;
+    console.log('authHeader', authHeader);
+    if (!authHeader) throw new BadRequestException('No hay token');
+
+    // authHeader === "Bearer x.y.z"
+    await this.csvService.importStores(file.buffer, authHeader);
+    return { message: 'CSV procesado con éxito' };
+  }
+
+  @Post('processCsvProducts')
+  @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
+  async processCsvProducts(@UploadedFile() file: Express.Multer.File): Promise<{ message: string }> {
     if (!file || !Buffer.isBuffer(file.buffer)) {
       throw new BadRequestException('Archivo inválido o buffer ausente');
-    }
-
-    const token = req.headers.authorization;
-    if (!token) {
-      throw new BadRequestException('Token de autorización no proporcionado');
-    }
-    await this.csvService.processCsvInventory(file.buffer, token);
-
-    return {
-      message: 'CSV procesado con éxito',
-    };
+    } const buffer = file.buffer;
+    await this.csvService.importProducts(buffer);
+    return { message: 'CSV procesado con éxito' };
   }
+
 }
